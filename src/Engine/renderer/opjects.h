@@ -22,7 +22,7 @@ struct texture
     unsigned int id;
     std::string path;
 };
-materials
+struct materials
 {
     glm::vec4 value;
     std::vector<texture> textures;

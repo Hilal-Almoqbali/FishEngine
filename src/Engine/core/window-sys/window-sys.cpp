@@ -15,11 +15,10 @@ window_sys::window_sys(window_data data)
         glfwWindowHint(GLFW_CENTER_CURSOR, data.CenterCursor);
         glfwWindowHint(GLFW_MAXIMIZED, data.maximized);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         if (glfwPlatformSupported(GLFW_PLATFORM_WAYLAND))
         {
-            CORE_INFO("wayland is supported");
             CORE_INFO("runs in wayland");
             glfwWindowHint(GLFW_PLATFORM,GLFW_PLATFORM_WAYLAND);
         }
@@ -51,7 +50,7 @@ window_sys::window_sys(window_data data)
         
     if (!m_window)
     {
-        CORE_ERROR("window system failure: recomed opengl version 3.x.x or higher");
+        CORE_ERROR("window system failure: recomed opengl version 4.2.x or higher");
     }
         glfwSwapInterval(data.VSync_mode);
         glfwMakeContextCurrent(m_window);
