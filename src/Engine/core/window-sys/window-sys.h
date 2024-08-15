@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
-//#include <>
+#include <logging.h>
 #define WINDOWED_WINDOW 0
 #define WINDOWED_FULL_SCREEN_WINDOW 1
 #define FULL_SCREEN 2

@@ -1,11 +1,13 @@
 #include<window-sys.h>
-const char *vertexShaderSource = "#version 330 core\n"
+#include<stdlib.h>
+#include<string>
+const char *vertexShaderSource ="#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
     "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
+const char *fragmentShaderSource ="#version 330 core\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
@@ -28,7 +30,8 @@ int main(void)
 
     rose::window_sys window(window_info);
     //window.HideCursor(true);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){std::cout << "Failed to initialize GLAD" << std::endl;} // TODO: when you make the renderer move this line to there.    
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {CLIENT_ERROR("Failed to initialize GLAD");}// TODO: when you make the renderer move this line to there.
 // build and compile our shader program
     // ------------------------------------
     // vertex shader
@@ -42,7 +45,7 @@ int main(void)
     if (!success)
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        CLIENT_ERROR("VERTEX SHADER COMPILATION FAILED");
     }
     // fragment shader
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -53,7 +56,7 @@ int main(void)
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        CLIENT_ERROR("FRAGMENT SHADER COMPILATION FAILED");
     }
     // link shaders
     unsigned int shaderProgram = glCreateProgram();
@@ -64,11 +67,12 @@ int main(void)
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        CLIENT_ERROR("SHADER::PROGRAM::LINKING_FAILED");
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
+    //free((void*)(long)vertexShaderSource);
+    //free((void*)(long)fragmentShaderSource);
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
@@ -102,6 +106,7 @@ int main(void)
 
     // render loop
     // -----------
+    CLIENT_INFO("START DRAWING");
     while (window.window_isnt_closed())
     {
         // input

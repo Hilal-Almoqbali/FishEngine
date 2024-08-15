@@ -9,6 +9,12 @@ namespce rose
         Model model;
         bool ignore = false;
     };
+    struct Renderer_Args
+    {
+        std::vector<Opject> seen;
+        std::vector<Camera> camera;
+        std::vector<TexCam> texture_camera;
+    }
     class Renderer
     {
     public:
@@ -24,8 +30,7 @@ namespce rose
         void make_camera_current(int ID);
         void add_texture_camera(unsigned int *texture,glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f));
         void draw();
-        template<typename Fn>
-        int command(Fn func);
+        int command(std::function<int(Renderer_Args)> Fn)
         ~Renderer()=defult;
     private:
         struct TexCam
@@ -35,6 +40,6 @@ namespce rose
         };
         std::vector<Opject> m_seen;
         std::vector<Camera> m_camera;
-        std::vector<TexCam> m_texture_camera;
+        std::vector<TexCam> m_texture_camera; //TODO:add a texture_camera class insted of the normal camera class.
     };
 }

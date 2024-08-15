@@ -4,6 +4,7 @@ namespace rose
 {
 window_sys::window_sys(window_data data)
 {
+    rose::log::init();
     glfwInit();
     if(data.Graphics_API)
     {
@@ -14,16 +15,27 @@ window_sys::window_sys(window_data data)
         glfwWindowHint(GLFW_CENTER_CURSOR, data.CenterCursor);
         glfwWindowHint(GLFW_MAXIMIZED, data.maximized);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        if (glfwPlatformSupported(GLFW_PLATFORM_WAYLAND))
+        {
+            CORE_INFO("wayland is supported");
+            CORE_INFO("runs in wayland");
+            glfwWindowHint(GLFW_PLATFORM,GLFW_PLATFORM_WAYLAND);
+        }
+        else
+        {
+            CORE_INFO("runs in Xorg or Xwayland");
+        }
     }
     if(data.window_mode == 0)
     {
-        std::cout<<"info: makeing a windowed window\n";
+        CORE_TRACE("draw in a windowed window");
         m_window = glfwCreateWindow(data.width, data.hight, data.window_name.c_str(), NULL, NULL);
     }
     if(data.window_mode == 1)
         {
+            CORE_TRACE("draw in full secreen");
             const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             glfwWindowHint(GLFW_RED_BITS, mode->redBits);
             glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
@@ -33,22 +45,26 @@ window_sys::window_sys(window_data data)
         }
     if(data.window_mode == 2)
         {
+            CORE_TRACE("draw in a borderless window");
             m_window = glfwCreateWindow(data.width, data.hight, data.window_name.c_str(), glfwGetPrimaryMonitor(), NULL);
         }
         
-    if (!m_window){std::cout<<"window system failure\n --recomed to cheack opengl version if it was not 3.x.x\n";};
-    glfwSwapInterval(data.VSync_mode);
-    glfwMakeContextCurrent(m_window);
-    if(data.Graphics_API)
+    if (!m_window)
     {
-        std::cout<<"we dosent support vulkan yet\n";
+        CORE_ERROR("window system failure: recomed opengl version 3.x.x or higher");
     }
-    else
-    {
-        glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int hight)
+        glfwSwapInterval(data.VSync_mode);
+        glfwMakeContextCurrent(m_window);
+        if(data.Graphics_API)
         {
-            glViewport(0, 0, width, hight);
-        });
+            std::cout<<"we dosent support vulkan yet\n";
+        }
+        else
+        {
+            glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int hight)
+            {
+                glViewport(0, 0, width, hight);
+            });
+        }
     }
-}
 }

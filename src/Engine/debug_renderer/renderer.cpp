@@ -2,6 +2,10 @@
 
 namespce rose
 {
+        std::vector<Opject> Renderer::m_seen;
+        std::vector<Camera> Renderer::m_camera;
+        std::vector<TexCam> Renderer::m_texture_camera;
+
         void Renderer::add_seen(std::vector<Opject> seen)
         {
             m_seen = seen;
@@ -56,7 +60,7 @@ namespce rose
         }
         void Renderer::add_camera(int ID, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f))
         {
-            //TODO: كمل الشغل على الباقي
+
         }
         void Renderer::make_camera_current(int ID)
         {}
@@ -64,6 +68,8 @@ namespce rose
         {}
         void Renderer::draw()
         {}
-        template<typename Fn>
-        int Renderer::command(Fn func);
+        int command(std::function<int(Renderer_Args)> Fn)
+        {
+            return Fn({m_seen, m_camera, m_texture_camera})
+        }
 }
