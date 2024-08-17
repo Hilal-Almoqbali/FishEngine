@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(test)
 #TODO: do this
-file(COPY ./assets/ DESTINATION ./build_test/)
+file(COPY ./assets/ DESTINATION ./assets/)
 SET( CMAKE_CXX_FLAGS "-Oz")
 add_subdirectory(3rdParty)
 

@@ -1,3 +1,4 @@
+#include <cstddef>
 #include<window-sys.h>
 #include<stdlib.h>
 #include<string>
@@ -128,7 +129,7 @@ int main(void)
         // -------------------------------------------------------------------------------
         window.update();
     }
-
+    CLIENT_TRACE("Quitting")
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &VAO);

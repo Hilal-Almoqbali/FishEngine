@@ -3,5 +3,5 @@ cd ..
 mkdir build_test
 cd ./build_test/
 cmake ..
-make -j4
+make -j 8
 rm ../CMakeLists.txt
