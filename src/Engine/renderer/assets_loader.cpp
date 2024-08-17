@@ -1,4 +1,5 @@
 #include<assets_loader.h>
+#include <string>
 namespce roze
 {
     assets_loader::opject m_opject;
